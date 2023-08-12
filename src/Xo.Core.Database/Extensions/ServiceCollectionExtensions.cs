@@ -10,6 +10,11 @@ public static partial class ServiceCollectionExtensions
         @this.TryAddSingleton<IDatabaseConnectionFactory, DatabaseConnectionFactory>();
         @this.TryAddSingleton<IDapperWrapper, DapperWrapper>();
         @this.ConfigureOptions<DatabaseOptions>(configuration, nameof(DatabaseOptions));
+        @this.TryAddSingleton<IReadDatabaseResourceAccess, ReadDatabaseResourceAccess>();
+        @this.TryAddSingleton<IWriteDatabaseResourceAccess, WriteDatabaseResourceAccess>();
+        @this.TryAddSingleton<ISqlCommandMapper, SqlCommandMapper>();
+        @this.TryAddSingleton<ISqlQueryMapper, SqlQueryMapper>();
+
         return @this;
     }
 }
