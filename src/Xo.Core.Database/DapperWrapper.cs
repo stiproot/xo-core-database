@@ -11,10 +11,7 @@ public class DapperWrapper : IDapperWrapper
         CommandType commandType = CommandType.StoredProcedure,
         IDbTransaction? transaction = null
     )
-    {
-        var row = await connection.QueryFirstOrDefaultAsync<TQueryResult>(sql, parameters, commandType: commandType, transaction: transaction);
-        return row;
-    }
+        => await connection.QueryFirstOrDefaultAsync<TQueryResult>(sql, parameters, commandType: commandType, transaction: transaction);
 
     public async Task<IEnumerable<TQueryResult>> QueryAsync<TQueryResult>(
         IDbConnection connection,
@@ -23,14 +20,7 @@ public class DapperWrapper : IDapperWrapper
         CommandType commandType = CommandType.StoredProcedure,
         IDbTransaction? transaction = null
     )
-    {
-        // THIS WORKS!!!...
-        //var result = await connection.QueryAsync<TQueryResult>(sql, commandType: CommandType.StoredProcedure, transaction: transaction);
-
-        var result = await connection.QueryAsync<TQueryResult>(sql, parameters, commandType: commandType, transaction: transaction);
-
-        return result;
-    }
+        => await connection.QueryAsync<TQueryResult>(sql, parameters, commandType: commandType, transaction: transaction);
 
     public async Task<TPaged> PagedQueryAsync<TPaged, TQueryResult>(
         IDbConnection connection,
@@ -58,7 +48,5 @@ public class DapperWrapper : IDapperWrapper
         CommandType commandType = CommandType.Text,
         IDbTransaction? transaction = null
     )
-    {
-        await connection.ExecuteAsync(sql, parameters, commandType: commandType, transaction: transaction);
-    }
+        => await connection.ExecuteAsync(sql, parameters, commandType: commandType, transaction: transaction);
 }

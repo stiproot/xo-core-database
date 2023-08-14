@@ -24,20 +24,17 @@ public class WriteDatabaseResourceAccess : IWriteDatabaseResourceAccess
         IDbTransaction? transaction = null
     )
     {
-        if (cmd.Result == null)
-        {
-            cmd.Result = new BaseCommandResult();
-        }
-
         var instruction = this._SqlCommandMapper.Map(cmd);
         if (connection is null)
         {
             using var _connection = this._DatabaseConnectionFactory.Create();
-            cmd.Result.Id = await this.ExecuteAsync(cmd, cancellationToken, _connection, instruction, transaction);
+            long id = await this.ExecuteAsync(cmd, cancellationToken, _connection, instruction, transaction);
+            cmd.Result = new BaseCommandResult { Id = id };
         }
         else
         {
-            cmd.Result.Id = await this.ExecuteAsync(cmd, cancellationToken, connection, instruction, transaction);
+            long id = await this.ExecuteAsync(cmd, cancellationToken, connection, instruction, transaction);
+            cmd.Result = new BaseCommandResult { Id = id };
         }
     }
 
